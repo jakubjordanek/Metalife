@@ -5,10 +5,9 @@ import sys
 sys.path.append("classes")
 
 import pygame
-import random
 from display import WIDTH, HEIGHT
-from human import Human
-from food import Food
+from human import generate_humans
+from food import generate_food
 
 pygame.init()
 
@@ -18,24 +17,9 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Metalife")
 pygame.time.set_timer(pygame.USEREVENT, 5000)
 
-objects_list = []
-
-humans_list = []
-for i in range(5):
-    color = (232, 190, 172)
-    rect = pygame.Rect(random.randint(0, WIDTH - 20), random.randint(0, HEIGHT - 20), 20, 20)
-    human = Human(color, rect)
-    humans_list.append(human)
-    objects_list.append(human)
-
-food_list = []
-for i in range(15):
-    color = (184, 48, 48)
-    rect = pygame.Rect(random.randint(0, WIDTH - 20), random.randint(0, HEIGHT - 20), 10, 10)
-    hunger = 20
-    food = Food(color, rect, hunger)
-    food_list.append(food)
-    objects_list.append(food)
+humans_list = generate_humans()
+food_list = generate_food()
+objects_list = humans_list + food_list
     
 running = True
 while running:
@@ -61,9 +45,11 @@ while running:
                 human.find_closest_target(food_list)
                 for target in food_list:
                     if human.rect.colliderect(target.rect):
+                        # human.hunger += (target.size * 0.1)
                         human.hunger += target.hunger
                         food_list.remove(target)
                         objects_list.remove(target)
+        human.draw(screen)
 
     for object in objects_list:
         object.draw(screen)
