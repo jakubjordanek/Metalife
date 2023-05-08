@@ -38,6 +38,17 @@ class Human(Object):
         if nearest_target:
             self.move_to_target(nearest_target)
 
+humans_list = []           
+
+def create_human(size, x, y, gender, hunger):
+    rect = pygame.Rect(x, y, size, size)
+    human = Human(size, rect, gender, hunger)
+    humans_list.append(human)
+
+def generate_humans():
+    for human in load_humans():
+        create_human(human[1], human[2], human[3], human[4], human[5])
+
 def load_humans():
     db = connect_db()
     cursor = db.cursor()
@@ -45,15 +56,4 @@ def load_humans():
     return cursor.fetchall()
     db.close()
 
-def generate_humans():
-    humans_list = []
-    for i in load_humans():
-        size = i[1]
-        x = i[2]
-        y = i[3]
-        gender = i[4]
-        hunger = i[5]
-        rect = pygame.Rect(x, y, size, size)
-        human = Human(size, rect, gender, hunger)
-        humans_list.append(human)
-    return humans_list
+generate_humans()
