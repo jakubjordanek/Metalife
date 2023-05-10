@@ -42,20 +42,31 @@ class Human(Object):
             self.move_to_target(nearest_target)
 
     @classmethod
-    def take_hunger(cls):
+    def increase_hunger(cls, hunger):
         for human in cls.humans:
-            human.hunger -= 35
+            human.hunger += hunger
 
-def create_human(size, x, y, gender, hunger):
-    rect = pygame.Rect(x, y, size, size)
-    Human(size, rect, gender, hunger)
+    def consume_food(self, hunger):
+        self.hunger -= hunger
+        if self.hunger < 0:
+            self.hunger = 0
 
-def load_humans():
+    @classmethod
+    def create(cls, size, x, y, gender, hunger):
+        rect = pygame.Rect(x, y, size, size)
+        cls(size, rect, gender, hunger)
+
+    def delete(self):
+        Human.humans.remove(self)
+        Object.objects.remove(self)
+
+# download and generate people from the database
+def generate_humans():
     db = connect_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM humans")
     for human in cursor.fetchall():
-        create_human(human[1], human[2], human[3], human[4], human[5])
+        Human.create(human[1], human[2], human[3], human[4], human[5])
     db.close()
 
-load_humans()
+generate_humans()

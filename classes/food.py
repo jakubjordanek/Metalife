@@ -10,16 +10,22 @@ class Food(Object):
         self.hunger = hunger
         Food.food.append(self)
 
-def create_food(size, x, y, hunger):
-    rect = pygame.Rect(x, y, size, size)
-    Food(size, rect, hunger)
+    @classmethod
+    def create(cls, size, x, y, hunger):
+        rect = pygame.Rect(x, y, size, size)
+        cls(size, rect, hunger)
 
-def load_food():
+    def delete(self):
+        Food.food.remove(self)
+        Object.objects.remove(self)
+
+# download and generate food from the database
+def generate_food():
     db = connect_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM food")
     for food in cursor.fetchall():
-        create_food(food[1], food[2], food[3], food[4])
+        Food.create(food[1], food[2], food[3], food[4])
     db.close()
 
-load_food()
+generate_food()
