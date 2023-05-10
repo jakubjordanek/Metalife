@@ -4,10 +4,13 @@ import pygame
 import math
 
 class Human(Object):
+    humans = []
+
     def __init__(self, size, rect, gender, hunger):
         super().__init__(size, (232, 190, 172), rect)
         self.gender = gender
         self.hunger = hunger
+        Human.humans.append(self)
 
     def move_to_target(self, target):
         dx = target.rect.x - self.rect.x
@@ -38,22 +41,21 @@ class Human(Object):
         if nearest_target:
             self.move_to_target(nearest_target)
 
-humans_list = []           
+    @classmethod
+    def take_hunger(cls):
+        for human in cls.humans:
+            human.hunger -= 35
 
 def create_human(size, x, y, gender, hunger):
     rect = pygame.Rect(x, y, size, size)
-    human = Human(size, rect, gender, hunger)
-    humans_list.append(human)
-
-def generate_humans():
-    for human in load_humans():
-        create_human(human[1], human[2], human[3], human[4], human[5])
+    Human(size, rect, gender, hunger)
 
 def load_humans():
     db = connect_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM humans")
-    return cursor.fetchall()
+    for human in cursor.fetchall():
+        create_human(human[1], human[2], human[3], human[4], human[5])
     db.close()
 
-generate_humans()
+load_humans()

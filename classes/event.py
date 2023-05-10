@@ -1,19 +1,10 @@
 import pygame
 
-class Event(pygame.sprite.Sprite):
-    def __init__(self, time, function):
-        super().__init__()
-        self.time = time
+class Event:
+    events = []
+
+    def __init__(self, delay, function):
+        self.delay = delay
+        self.time = pygame.time.get_ticks()
         self.function = function
-        self.event = pygame.USEREVENT
-        pygame.time.set_timer(self.event, self.time)
-
-    def update(self, *args):
-        if args and args[0].type == self.event:
-            self.function()
-
-events_list = []
-
-def create_event(time, function):
-    event = Event(time, function)
-    events_list.append(event)
+        Event.events.append(self)
