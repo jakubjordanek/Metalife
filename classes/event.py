@@ -1,7 +1,7 @@
-import pygame
-import random
 from human import Human
 from food import Food
+import pygame
+import random
 
 class Event:
     events = []
@@ -16,5 +16,5 @@ class Event:
     def create(cls, delay, function):
         cls(delay, function)
 
-Event.create(5000, lambda: Human.increase_hunger(35))
-Event.create(2000, lambda: Food.create(10, random.randint(0, 790), random.randint(0, 590), 20))
+Event.create(10 * 1000, lambda: Human.increase_hunger(40))
+Event.create(2 * 1000, lambda: Food.create(10, random.randint(0, 790), random.randint(0, 590), 40))

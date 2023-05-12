@@ -9,7 +9,6 @@ from display import WIDTH, HEIGHT, FPS
 from event import Event
 from object import Object
 from human import Human
-from food import Food
 
 pygame.init()
 
@@ -35,14 +34,7 @@ while running:
 
     screen.fill((58, 196, 24))
 
-    for human in Human.humans:
-        if len(Food.food) > 0:
-            if human.hunger > 30:
-                human.find_closest_target(Food.food)
-                for target in Food.food:
-                    if human.rect.colliderect(target.rect):
-                        human.consume_food(target.hunger)
-                        Food.delete(target)
+    Human.is_hungry()
 
     for object in Object.objects:
         object.draw(screen)

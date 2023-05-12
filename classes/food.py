@@ -1,6 +1,7 @@
+from display import WIDTH, HEIGHT
 from object import Object
-from db import connect_db
 import pygame
+import random
 
 class Food(Object):
     food = []
@@ -19,13 +20,12 @@ class Food(Object):
         Food.food.remove(self)
         Object.objects.remove(self)
 
-# download and generate food from the database
-def generate_food():
-    db = connect_db()
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM food")
-    for food in cursor.fetchall():
-        Food.create(food[1], food[2], food[3], food[4])
-    db.close()
+# generate food in random position
+def generate_food(COUNT):
+    for food in range(COUNT):
+        size = 10
+        x = random.randint(0, WIDTH - size)
+        y = random.randint(0, HEIGHT - size)
+        Food.create(size, x, y, 20)
 
-generate_food()
+generate_food(5)
