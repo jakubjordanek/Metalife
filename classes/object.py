@@ -10,7 +10,7 @@ class Object:
         Object.objects.append(self)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect, self.size)
+        return pygame.draw.rect(screen, self.color, self.rect, self.size)
 
     def is_clicked(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)

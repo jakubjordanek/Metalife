@@ -16,14 +16,14 @@ class Human(Object):
         Human.humans.append(self)
 
     def move(self):
-        direction = random.choice(['up', 'down', 'left', 'right'])
-        if direction == 'up':
+        direction = random.choice(["up", "down", "left", "right"])
+        if direction == "up":
             self.rect.y -= 2
-        elif direction == 'down':
+        elif direction == "down":
             self.rect.y += 2
-        elif direction == 'left':
+        elif direction == "left":
             self.rect.x -= 2
-        elif direction == 'right':
+        elif direction == "right":
             self.rect.x += 2
 
     def move_to_target(self, target):
@@ -64,6 +64,8 @@ class Human(Object):
                     if human.rect.colliderect(food.rect):
                         human.consume_food(food.hunger)
                         Food.delete(food)
+            else:
+                human.move()
 
     @classmethod
     def increase_hunger(cls, hunger):
@@ -82,7 +84,7 @@ class Human(Object):
     @classmethod
     def create(cls, size, x, y, gender, hunger, happiness):
         rect = pygame.Rect(x, y, size, size)
-        cls(size, rect, gender, hunger, happiness)
+        return cls(size, rect, gender, hunger, happiness)
 
     def delete(self):
         Human.humans.remove(self)
@@ -91,8 +93,8 @@ class Human(Object):
 # generate humans in random position
 def generate_humans(COUNT):
     for human in range(COUNT):
-        gender = random.choice(['Male', 'Female'])
-        size = 20 if gender == 'Male' else 15
+        gender = random.choice(["Male", "Female"])
+        size = 20 if gender == "Male" else 15
         x = random.randint(0, WIDTH - size)
         y = random.randint(0, HEIGHT - size)
         Human.create(size, x, y, gender, 0, 50)

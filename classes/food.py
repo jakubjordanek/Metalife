@@ -14,7 +14,7 @@ class Food(Object):
     @classmethod
     def create(cls, size, x, y, hunger):
         rect = pygame.Rect(x, y, size, size)
-        cls(size, rect, hunger)
+        return cls(size, rect, hunger)
 
     def delete(self):
         Food.food.remove(self)

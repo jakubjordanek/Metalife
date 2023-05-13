@@ -1,3 +1,4 @@
+from display import WIDTH, HEIGHT
 from human import Human
 from food import Food
 import pygame
@@ -17,4 +18,4 @@ class Event:
         cls(delay, function)
 
 Event.create(10 * 1000, lambda: Human.increase_hunger(40))
-Event.create(2 * 1000, lambda: Food.create(10, random.randint(0, 790), random.randint(0, 590), 40))
+Event.create(2 * 1000, lambda: Food.create(10, random.randint(0, WIDTH - 10), random.randint(0, HEIGHT - 10), 40))
