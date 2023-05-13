@@ -11,16 +11,18 @@ class Food(Object):
         self.hunger = hunger
         Food.food.append(self)
 
+    # Function that supports the creation of a new 'Food'
     @classmethod
     def create(cls, size, x, y, hunger):
         rect = pygame.Rect(x, y, size, size)
         return cls(size, rect, hunger)
 
+    # Function that removes this 'Food'
     def delete(self):
         Food.food.remove(self)
         Object.objects.remove(self)
 
-# generate food in random position
+# Function that generates food in random position
 def generate_food(COUNT):
     for food in range(COUNT):
         size = 10

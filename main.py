@@ -21,12 +21,15 @@ running = True
 while running:
     dt = clock.tick(FPS)
 
+    # Check if the program has been closed
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    # Set current program time
     current_time = pygame.time.get_ticks()
 
+    # Loop for the events table
     for event in Event.events:
         if current_time - event.time >= event.delay:
             event.function()
@@ -34,12 +37,13 @@ while running:
 
     screen.fill((58, 196, 24))
 
+    Human.is_happy()
     Human.is_hungry()
 
+    # Loop drawing all objects
     for object in Object.objects:
         object.draw(screen)
 
     pygame.display.update()
 
 pygame.quit()
-#
